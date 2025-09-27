@@ -1,0 +1,19 @@
+{
+  "name": "persian-mock-data",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "user": "npm run build && node dist/user.js",
+    "beautician": "npm run build && node dist/beautician.js"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^9.0.0",
+    "jalaali-js": "^1.2.6"
+  },
+  "devDependencies": {
+    "@types/jalaali-js": "^1.2.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.0"
+  }
+}
