@@ -32,7 +32,7 @@ async function deleteCsvFiles() {
     console.log("Deleted:", file);
   }
 
-  console.log("✅ Done!");
+  console.log("Done!");
 }
 
 deleteCsvFiles();
