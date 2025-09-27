@@ -1,23 +1,25 @@
 import { fakerFA as faker } from "@faker-js/faker";
-import {
-  toPersianEmail,
-  randomJalaliDate,
-  writeCSV,
-} from "./utils/faker-helpers.js";
+import { randomJalaliDate, writeCSV } from "./utils/faker-helpers";
 
 function generateUsers(count: number) {
+  const gender = Math.random() < 0.5 ? "male" : "female";
   return Array.from({ length: count }, () => {
-    const name = faker.person.fullName();
+    const name = faker.person.fullName({ sex: gender });
     return {
       name,
-      email: toPersianEmail(name),
+      email: faker.internet.email(),
+      phone: faker.phone.number({ style: "international" }),
+      password_hash:
+        "$2b$10$xXff.V6WPlDpSDGU9KO/GOi.RAvECHOOSztybqpcYehd037pF4yk6", // dont use in production
       city: faker.location.city(),
-      address: faker.location.streetAddress(),
-      phone: faker.phone.number({ style: "human" }),
+      gender,
       birthDate: randomJalaliDate(),
+      profilePicture: faker.internet.url(),
+      bio: faker.person.bio(),
     };
   });
 }
 
-const users = generateUsers(100);
-writeCSV(users, "dist/user.csv");
+const users = generateUsers(1000);
+writeCSV(users, "dist/csv/user.csv");
+
