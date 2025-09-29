@@ -2,8 +2,19 @@ import { fakerFA as faker } from "@faker-js/faker";
 import { writeCSV } from "./utils/faker-helpers";
 import districts from "./constants/districts";
 
+export type Location = {
+  id: string;
+  country: string;
+  city: string;
+  district: string;
+  address: string;
+  latitude: string;
+  longitude: string;
+};
+
 function generateLocations(count: number) {
   return Array.from({ length: count }, () => ({
+    id: faker.string.uuid(),
     country: "iran",
     city: faker.location.city(),
     district: faker.helpers.arrayElement(districts),
