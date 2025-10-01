@@ -47,4 +47,49 @@ const serviceCategories: string[] = [
   "WellnessRetreatResort",
 ];
 
+  "SkinCareFacialCenter",
+  "LaserHairRemovalClinic",
+  "HairTransplantClinic",
+  "AcneSkinTreatmentCenter",
+  "AntiAgingRejuvenationClinic",
+  "MedicalDermatologyClinic",
+
+  "TherapeuticMassageCenter",
+  "RelaxationMassageSpa",
+  "LuxuryDaySpa",
+  "HydrotherapyCenter",
+  "AromatherapySpa",
+  "ThaiMassageStudio",
+
+  "TattooStudio",
+  "PermanentMakeupMicroblading",
+  "PiercingStudio",
+  "HennaTemporaryBodyArt",
+
+  "TeethWhiteningClinic",
+  "DentalVeneersLaminatesClinic",
+  "CosmeticDentistryClinic",
+  "OrthodonticsSmileDesign",
+
+  "FitnessGym",
+  "YogaStudio",
+  "PilatesStudio",
+  "CrossfitTrxCenter",
+  "PersonalTrainingStudio",
+  "WellnessNutritionCenter",
+  "MeditationMindfulnessStudio",
+
+  //   "CosmeticsStore",
+  //   "SkincareProductsStore",
+  //   "HaircareProductsStore",
+  //   "PerfumeFragranceStore",
+  //   "OrganicBeautyProductsShop",
+  //   "SpaWellnessProductsShop",
+
+  "AtHomeBeautyServices",
+  "PlasticSurgeryClinic",
+  "NonSurgicalAestheticClinic",
+  "NutritionDietTherapyCenter",
+  //   "WellnessRetreatResort"
+];
 export default serviceCategories;

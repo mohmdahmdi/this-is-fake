@@ -7,10 +7,12 @@
     "user": "npm run build && node dist/user.js",
     "beautician": "npm run build && node dist/beautician.js",
     "location": "npm run build && node dist/location.js",
+    "business": "npm run build && node dist/business.js",
     "clean:csv": "ts-node ./src/utils/delete-csv.ts"
   },
   "dependencies": {
     "@faker-js/faker": "^9.0.0",
+    "csv-parse": "^6.1.0",
     "inquirer": "^12.9.6",
     "jalaali-js": "^1.2.6",
     "transliteration": "^2.3.5"
