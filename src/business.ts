@@ -5,45 +5,29 @@ import { readCsv } from "./utils/read-csv";
 import { Users } from "./user";
 
 async function generateBusinesses(count: number) {
-  const users = await readCsv<Users>("../dist/csv/user.csv", [
-    "id",
-    "full_name",
-    "email",
-    "phone",
-    "password_hash",
-    "city",
-    "gender",
-    "birth_date",
-    "profile_picture",
-    "bio",
-  ] as (keyof Users)[]);
+  let users = await readCsv<Users>("../dist/csv/user.csv");
 
-  const locations = await readCsv<Location>("../dist/csv/location.csv", [
-    "id",
-    "country",
-    "city",
-    "district",
-    "address",
-    "latitude",
-    "longitude",
-  ]);
+  // const locations = await readCsv<Location>("../dist/csv/location.csv");
 
-  const owner_id = ''
-  const name= ''
-    return Array.from({ length: count }, () => ({
+  return Array.from({ length: count }, () => {
+    const owner_id = users[Math.floor(Math.random() * users.length)].id;
+    users.length > 5 && users.splice(users.findIndex(predicate => predicate.id === owner_id))
+    const name = "";
+    console.log(users);
+    return {
       id: faker.string.uuid(),
       owner_id,
       name,
-      description: '',
+      description: "",
       city: faker.location.city(),
       district: faker.helpers.arrayElement(districts),
       address: `کوچه ${Math.floor(Math.random() * 50)}`,
       latitude: faker.location.latitude({ min: 25, max: 40 }),
       longitude: faker.location.longitude({ min: 44, max: 63 }),
-    }));
+    };
+  });
 }
 
 const businesses = generateBusinesses(100).then((businesses) => {
-  console.log(businesses);
 });
 // writeCSV(businesses, "dist/csv/locations.csv");

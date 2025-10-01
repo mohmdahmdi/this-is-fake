@@ -1,4 +1,4 @@
-import { fakerFA as faker } from "@faker-js/faker";
+import { fakerFA as faker, fakerEN } from "@faker-js/faker";
 import { randomJalaliDate, writeCSV } from "./utils/faker-helpers";
 
 export type Users = {
@@ -7,7 +7,6 @@ export type Users = {
   email: string;
   phone: string;
   password_hash: string;
-  city: string;
   gender: string;
   birth_date: string;
   profile_picture: string;
@@ -18,6 +17,14 @@ function generateUsers(count: number) {
   return Array.from({ length: count }, () => {
     const gender = Math.random() < 0.5 ? "male" : "female";
     const name = faker.person.fullName({ sex: gender });
+    const birthDate = fakerEN.date
+      .birthdate({
+        min: 18,
+        max: 65,
+        mode: "age",
+      })
+      .toISOString()
+      .split("T")[0];
     return {
       id: faker.string.uuid(),
       full_name: name,
@@ -25,9 +32,8 @@ function generateUsers(count: number) {
       phone: faker.phone.number({ style: "international" }),
       password_hash:
         "$2b$10$xXff.V6WPlDpSDGU9KO/GOi.RAvECHOOSztybqpcYehd037pF4yk6", // dont use in production
-      city: faker.location.city(),
       gender,
-      birth_date: randomJalaliDate(),
+      birth_date: birthDate,
       profile_picture: faker.internet.url(),
       bio: faker.person.bio(),
     };

@@ -7,7 +7,7 @@ import { parse } from "csv-parse";
  * @param fileName - CSV file path relative to project root
  * @param headers - column headers to map each row
  */
-export async function readCsv<T>(fileName: string, headers: string[]): Promise<T[]> {
+export async function readCsv<T>(fileName: string): Promise<T[]> {
   const csvFilePath = path.resolve(process.cwd(), "src", fileName);
   const fileContent = fs.readFileSync(csvFilePath, { encoding: "utf-8" });
 
@@ -16,16 +16,13 @@ export async function readCsv<T>(fileName: string, headers: string[]): Promise<T
       fileContent,
       {
         delimiter: ",",
-        columns: headers,
+        columns: true,
         skip_empty_lines: true,
         trim: true,
       },
       (error, result: T[]) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(result);
-        }
+        if (error) reject(error);
+        else resolve(result);
       }
     );
   });
