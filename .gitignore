@@ -1,14 +1,14 @@
 # Node modules
 node_modules/
 
-# TypeScript compiled output
-dist/
-
+# Ignore all files and folders in dist
+dist/**/*
+# But keep the csv directory structure
+!dist/csv/
+# And allow files within csv folder
+!dist/csv/**/*
 # Environment variables
 .env
 
 # Logs
 *.log
-
-# CSV outputs
-*.csv
