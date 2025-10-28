@@ -9,6 +9,7 @@
     "location": "npm run build && node dist/location.js",
     "business": "npm run build && node dist/business.js",
     "business:type": "npm run build && node dist/business_type.js",
+    "services": "npm run build && node dist/services.js",
     "clean:csv": "ts-node ./src/utils/delete-csv.ts"
   },
   "dependencies": {

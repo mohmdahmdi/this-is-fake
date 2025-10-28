@@ -8,7 +8,7 @@ import serviceCategories from "./constants/service-categories";
 import { Location } from "./location";
 import { CategoriesTranslation } from "./business_type";
 
-async function generateBeauticians(count: number) {
+async function generateServices(count: number) {
   const translation = categoriesTranslation as CategoriesTranslation;
   let users = await readCsv<Users>("../dist/csv/user.csv");
 
@@ -53,6 +53,6 @@ async function generateBeauticians(count: number) {
   });
 }
 
-const services = generateBeauticians(100).then((services) => {
+const services = generateServices(100).then((services) => {
   writeCSV(services, "dist/csv/services.csv");
 });
