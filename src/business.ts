@@ -3,8 +3,8 @@ import { writeCSV } from "./utils/faker-helpers";
 import { readCsv } from "./utils/read-csv";
 import { Users } from "./user";
 import businessDescription from "./utils/business-description";
-import categoriesTranslation from "./constants/categories_translation_map.json";
-import serviceCategories from "./constants/service-categories";
+import categoriesTranslation from "./constants/bus_categories_translation_map.json";
+import business_types from "./constants/business_types";
 import { Location } from "./location";
 import { CategoriesTranslation } from "./business_type";
 
@@ -25,7 +25,7 @@ export type Business = {
   rating: string;
   is_verified: boolean;
   is_active: boolean;
-}
+};
 
 async function generateBusinesses(count: number) {
   const translation = categoriesTranslation as CategoriesTranslation;
@@ -38,7 +38,7 @@ async function generateBusinesses(count: number) {
     const user = users[user_index];
     const owner_id = user.id;
     const business_type =
-      serviceCategories[Math.floor(Math.random() * serviceCategories.length)];
+      business_types[Math.floor(Math.random() * business_types.length)];
     const location_index = Math.floor(Math.random() * locations.length);
     const location_id = locations[location_index] as Location;
     locations.splice(location_index, 1);

@@ -1,4 +1,4 @@
-const serviceCategories: string[] = [
+const business_types: string[] = [
   "WomensBeautySalon",
   "MensBarbershop",
   "BridalMakeupStudio",
@@ -46,4 +46,4 @@ const serviceCategories: string[] = [
   "NutritionDietTherapyCenter",
   "WellnessRetreatResort",
 ];
-export default serviceCategories;
+export default business_types;

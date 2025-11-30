@@ -3,8 +3,6 @@ import { writeCSV } from "./utils/faker-helpers";
 import { readCsv } from "./utils/read-csv";
 import { Users } from "./user";
 import persianTranslationMap from "./constants/persian-translation-map.json";
-import serviceCategories from "./constants/service-categories";
-import { Location } from "./location";
 import { Business } from "./business";
 import businessDescription from "./utils/business-description";
 

@@ -10,6 +10,7 @@
     "business": "npm run build && node dist/business.js",
     "business:type": "npm run build && node dist/business_type.js",
     "services": "npm run build && node dist/services.js",
+    "services:category": "npm run build && node dist/service_category.js",
     "clean:csv": "ts-node ./src/utils/delete-csv.ts"
   },
   "dependencies": {

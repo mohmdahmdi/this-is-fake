@@ -1,7 +1,7 @@
 import { writeCSV } from "./utils/faker-helpers";
 import businessDescription from "./utils/business-description";
 import categoriesTranslation from "./constants/categories_translation_map.json";
-import serviceCategories from "./constants/service-categories";
+import business_types from "./constants/business_types";
 
 // Define the type for your translation map
 export interface CategoriesTranslation {
@@ -11,7 +11,7 @@ export interface CategoriesTranslation {
 }
 
 function generateBusinessType() {
-  return serviceCategories.map((item) => {
+  return business_types.map((item) => {
     const translation = categoriesTranslation as CategoriesTranslation;
 
     return {
