@@ -2,57 +2,64 @@ import { fakerFA as faker } from "@faker-js/faker";
 import { writeCSV } from "./utils/faker-helpers";
 import { readCsv } from "./utils/read-csv";
 import { Users } from "./user";
-import businessDescription from "./utils/business-description";
-import categoriesTranslation from "./constants/categories_translation_map.json";
+import persianTranslationMap from "./constants/persian-translation-map.json";
 import serviceCategories from "./constants/service-categories";
 import { Location } from "./location";
-import { CategoriesTranslation } from "./business_type";
+import { Business } from "./business";
+import businessDescription from "./utils/business-description";
 
-async function generateBeauticians(count: number) {
-  const translation = categoriesTranslation as CategoriesTranslation;
+export type Beautician = {
+  id: string;
+  user_id: string;
+  business_id: string | null;
+  bio: string;
+  experience_years: number;
+  specialties: string[];
+  is_freelancer: boolean;
+  rating: string;
+};
+
+const serviceCategoriesTranslation = persianTranslationMap.ServiceCategories;
+async function generateBeauticians(count: number): Promise<Beautician[]> {
   let users = await readCsv<Users>("../dist/csv/user.csv");
 
-  const locations = await readCsv<Location>("../dist/csv/locations.csv");
-
+  const bussinesses = await readCsv<Business>("../dist/csv/business.csv");
+  console.log(bussinesses);
   return Array.from({ length: count }, () => {
-    const user_index = Math.floor(Math.random() * users.length) - 1;
+    const user_index = Math.floor(Math.random() * users.length);
     const user = users[user_index];
-    const owner_id = user.id;
-    const business_type =
-      serviceCategories[Math.floor(Math.random() * serviceCategories.length)];
-    const location_index = Math.floor(Math.random() * locations.length);
-    const location_id = locations[location_index] as Location;
-    locations.splice(location_index, 1);
-    const phone = faker.phone.number({ style: "international" });
-    const name = `${
-      translation.businessCategories[business_type]
-    } ${faker.person.firstName("female")}`;
+    const user_id = user.id;
+
+    const business_index = Math.floor(Math.random() * bussinesses.length);
+    const business = bussinesses[business_index];
+    const business_id = business.id;
+
+    users.splice(user_index, 1);
+
+    const is_freelancer = Math.random() < 0.1;
 
     return {
       id: faker.string.uuid(),
-      owner_id,
-      name,
-      description: businessDescription(business_type || undefined),
-      logo: faker.internet.url(),
-      cover_image: faker.internet.url(),
-      location_id: location_id.id,
-      business_type_id: business_type,
-      phone,
-      email: Math.random() > 0.33 ? faker.internet.email() : null,
-      website:
-        Math.random() > 0.9 ? faker.internet.url({ protocol: "http" }) : null,
-      instagram:
-        Math.random() > 0.6
-          ? `@${faker.internet.username().toLowerCase()}`
-          : null,
-      whatsapp: Math.random() > 0.8 ? phone : null,
-      rating: (Math.random() * 5).toPrecision(2),
-      is_verified: Math.random() > 0.1,
-      is_active: Math.random() > 0.2,
+      user_id,
+      business_id: is_freelancer ? null : business_id,
+      bio: businessDescription(),
+      experience_years: Math.floor(Math.random() * 10),
+ 
+      specialties: Array.from({ length: Math.floor(Math.random() * 4) }, () => {
+        const spetialty = Object.keys(serviceCategoriesTranslation);
+        return serviceCategoriesTranslation[
+          spetialty[
+            Math.floor(Math.random() * spetialty.length)
+          ] as keyof typeof serviceCategoriesTranslation
+        ];
+      }),
+      is_freelancer,
+      rating: Math.floor(Math.random() * 5).toString(),
     };
   });
 }
 
-const services = generateBeauticians(100).then((services) => {
-  writeCSV(services, "dist/csv/services.csv");
+
+const beauticians = generateBeauticians(500).then((beautician) => {
+  writeCSV(beautician, "dist/csv/beauticians.csv");
 });
