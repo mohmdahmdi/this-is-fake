@@ -8,6 +8,25 @@ import serviceCategories from "./constants/service-categories";
 import { Location } from "./location";
 import { CategoriesTranslation } from "./business_type";
 
+export type Business = {
+  id: string;
+  owner_id: string;
+  name: string;
+  description: string;
+  logo: string;
+  cover_image: string;
+  location_id: string;
+  business_type_id: string;
+  phone: string;
+  email: string | null;
+  website: string | null;
+  instagram: string | null;
+  whatsapp: string | null;
+  rating: string;
+  is_verified: boolean;
+  is_active: boolean;
+}
+
 async function generateBusinesses(count: number) {
   const translation = categoriesTranslation as CategoriesTranslation;
   let users = await readCsv<Users>("../dist/csv/user.csv");
