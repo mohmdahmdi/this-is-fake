@@ -1,22 +1,13 @@
 import { writeCSV } from "./utils/faker-helpers";
 import businessDescription from "./utils/business-description";
-import categoriesTranslation from "./constants/categories_translation_map.json";
-import business_types from "./constants/business_types";
-
-// Define the type for your translation map
-export interface CategoriesTranslation {
-  businessCategories: Record<string, string>;
-  serviceTypes: Record<string, string>;
-  commonTerms: Record<string, string>;
-}
+import mainGraph from './constants/main-graph.json'
 
 function generateBusinessType() {
-  return business_types.map((item) => {
-    const translation = categoriesTranslation as CategoriesTranslation;
+  return Object.keys(mainGraph).map((item) => {
 
     return {
       id: item,
-      name: translation.businessCategories[item],
+      name: mainGraph[item as keyof typeof mainGraph].translation,
       description: businessDescription(item),
     };
   });

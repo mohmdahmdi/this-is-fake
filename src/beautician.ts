@@ -2,9 +2,17 @@ import { fakerFA as faker } from "@faker-js/faker";
 import { writeCSV } from "./utils/faker-helpers";
 import { readCsv } from "./utils/read-csv";
 import { Users } from "./user";
-import persianTranslationMap from "./constants/persian-translation-map.json";
 import { Business } from "./business";
 import businessDescription from "./utils/business-description";
+import mainGraph from "./constants/main-graph.json";
+
+export function toPgArray(arr: string[]) {
+  if (!arr || arr.length === 0) return "{}";
+  const escaped = arr
+    .map((item) => item.replace(/\\/g, "\\\\").replace(/"/g, '\\"')) // escape برای JSON-like
+    .join(",");
+  return `{${escaped}}`;
+}
 
 export type Beautician = {
   id: string;
@@ -12,17 +20,22 @@ export type Beautician = {
   business_id: string | null;
   bio: string;
   experience_years: number;
-  specialties: string[];
+  specialties: string;
   is_freelancer: boolean;
   rating: string;
 };
 
-const serviceCategoriesTranslation = persianTranslationMap.ServiceCategories;
+let serviceCategories: string[] = [];
+Object.values(mainGraph).forEach((item) => {
+  serviceCategories = [
+    ...serviceCategories,
+    ...Object.values(item.subCategories).map((item) => item.translation),
+  ];
+});
 async function generateBeauticians(count: number): Promise<Beautician[]> {
   let users = await readCsv<Users>("../dist/csv/user.csv");
-
   const bussinesses = await readCsv<Business>("../dist/csv/business.csv");
-  console.log(bussinesses);
+
   return Array.from({ length: count }, () => {
     const user_index = Math.floor(Math.random() * users.length);
     const user = users[user_index];
@@ -40,23 +53,19 @@ async function generateBeauticians(count: number): Promise<Beautician[]> {
       id: faker.string.uuid(),
       user_id,
       business_id: is_freelancer ? null : business_id,
-      bio: businessDescription(),
+      bio: businessDescription(business.business_type_id),
       experience_years: Math.floor(Math.random() * 10),
- 
-      specialties: Array.from({ length: Math.floor(Math.random() * 4) }, () => {
-        const spetialty = Object.keys(serviceCategoriesTranslation);
-        return serviceCategoriesTranslation[
-          spetialty[
-            Math.floor(Math.random() * spetialty.length)
-          ] as keyof typeof serviceCategoriesTranslation
+
+      specialties: toPgArray(Array.from({ length: Math.floor(Math.random() * 4) }, () => {
+        return serviceCategories[
+          Math.floor(Math.random() * serviceCategories.length)
         ];
-      }),
+      })),
       is_freelancer,
       rating: Math.floor(Math.random() * 5).toString(),
     };
   });
 }
-
 
 const beauticians = generateBeauticians(500).then((beautician) => {
   writeCSV(beautician, "dist/csv/beauticians.csv");

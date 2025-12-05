@@ -2,11 +2,12 @@ import { fakerFA as faker } from "@faker-js/faker";
 import { writeCSV } from "./utils/faker-helpers";
 import { readCsv } from "./utils/read-csv";
 import { Users } from "./user";
-import businessDescription from "./utils/business-description";
-import categoriesTranslation from "./constants/bus_categories_translation_map.json";
-import business_types from "./constants/business_types";
+import businessDescription, {
+  BusinessDescriptions,
+  BusinessType,
+} from "./utils/business-description";
 import { Location } from "./location";
-import { CategoriesTranslation } from "./business_type";
+import mainGraph from "./constants/main-graph.json";
 
 export type Business = {
   id: string;
@@ -28,8 +29,10 @@ export type Business = {
 };
 
 async function generateBusinesses(count: number) {
-  const translation = categoriesTranslation as CategoriesTranslation;
   let users = await readCsv<Users>("../dist/csv/user.csv");
+  let businessTypes = await readCsv<BusinessType>(
+    "../dist/csv/business_types.csv"
+  );
 
   const locations = await readCsv<Location>("../dist/csv/locations.csv");
 
@@ -38,24 +41,24 @@ async function generateBusinesses(count: number) {
     const user = users[user_index];
     const owner_id = user.id;
     const business_type =
-      business_types[Math.floor(Math.random() * business_types.length)];
+      businessTypes[Math.floor(Math.random() * businessTypes.length)];
     const location_index = Math.floor(Math.random() * locations.length);
     const location_id = locations[location_index] as Location;
     locations.splice(location_index, 1);
     const phone = faker.phone.number({ style: "international" });
     const name = `${
-      translation.businessCategories[business_type]
+      business_type.name
     } ${faker.person.firstName("female")}`;
 
     return {
       id: faker.string.uuid(),
       owner_id,
       name,
-      description: businessDescription(business_type || undefined),
+      description: businessDescription(business_type.id || undefined),
       logo: faker.internet.url(),
       cover_image: faker.internet.url(),
       location_id: location_id.id,
-      business_type_id: business_type,
+      business_type_id: business_type.id,
       phone,
       email: Math.random() > 0.33 ? faker.internet.email() : null,
       website:
