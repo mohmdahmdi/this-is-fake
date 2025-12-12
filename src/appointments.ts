@@ -5,7 +5,7 @@ import { Business } from "./business";
 import { Service } from "./services";
 import { Users } from "./user";
 
-type Appointment = {
+export type Appointment = {
   id: string;
   customer_id: string;
   beautician_id: string;

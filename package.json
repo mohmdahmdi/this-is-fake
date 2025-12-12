@@ -12,6 +12,7 @@
     "services": "npm run build && node dist/services.js",
     "services:category": "npm run build && node dist/service_category.js",
     "appointement": "npm run build && node dist/appointments.js",
+    "review": "npm run build && node dist/reviews.js",
     "clean:csv": "ts-node ./src/utils/delete-csv.ts"
   },
   "dependencies": {
